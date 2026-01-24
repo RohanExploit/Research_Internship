@@ -21,7 +21,7 @@ fn main() {
     for i in 0..file_count {
         let uuid = Uuid::new_v4();
         let filename = format!("{}.txt", uuid);
-        
+
         match File::create(&filename) {
             Ok(mut file) => {
                 // Write some content to the file
@@ -41,7 +41,7 @@ fn main() {
 
 fn check_internet_connectivity() -> bool {
     println!("Checking internet connectivity...");
-    
+
     // Use reqwest blocking client to check connectivity
     match reqwest::blocking::get("https://www.google.com") {
         Ok(response) => {
