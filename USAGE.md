@@ -14,10 +14,9 @@ This Rust utility program checks for internet connectivity and creates multiple 
 - Internet connection (required for the program to create files)
 
 ## Dependencies
-- `reqwest` - HTTP client for connectivity check
+- `reqwest` - HTTP client for connectivity check (blocking mode)
 - `uuid` - UUID generation for file names
 - `rand` - Random number generation for file count
-- `tokio` - Async runtime (required by reqwest)
 
 ## Building
 ```bash
@@ -35,9 +34,9 @@ Or run the compiled binary:
 ```
 
 ## Behavior
-1. The program first checks internet connectivity by making an HTTP request to `https://www.google.com`
-2. If the connection fails, the program exits with an error message
-3. If the connection succeeds, it generates a random number between 30 and 47
+1. The program first checks internet connectivity by attempting to connect to multiple reliable endpoints (Google, Cloudflare, Example.com)
+2. If all connection attempts fail, the program exits with an error message
+3. If at least one connection succeeds, it generates a random number between 30 and 47
 4. Creates that many files in the current working directory, each named with a unique UUID (format: `{uuid}.txt`)
 5. Each file contains a line stating its UUID
 

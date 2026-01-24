@@ -42,19 +42,25 @@ fn main() {
 fn check_internet_connectivity() -> bool {
     println!("Checking internet connectivity...");
 
+    // Try multiple reliable endpoints for better reliability
+    let test_urls = vec![
+        "https://www.google.com",
+        "https://www.cloudflare.com",
+        "https://www.example.com",
+    ];
+
     // Use reqwest blocking client to check connectivity
-    match reqwest::blocking::get("https://www.google.com") {
-        Ok(response) => {
-            if response.status().is_success() {
-                true
-            } else {
-                eprintln!("HTTP request failed with status: {}", response.status());
-                false
+    for url in test_urls {
+        match reqwest::blocking::get(url) {
+            Ok(response) => {
+                if response.status().is_success() {
+                    return true;
+                }
             }
-        }
-        Err(e) => {
-            eprintln!("Failed to connect: {}", e);
-            false
+            Err(_) => continue,
         }
     }
+
+    eprintln!("Failed to connect to any test endpoint");
+    false
 }
